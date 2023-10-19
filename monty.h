@@ -1,6 +1,9 @@
 #ifndef MAIN_H
 #define MAIN_H
+#define _GNU_SOURCE
 
+#include <unistd.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>

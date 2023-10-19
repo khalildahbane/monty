@@ -1,82 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "monty.h"
-/**
- * openfile -  open file
- * @filename: file name
- * Return: FILE
- */
-FILE *openfile(char *filename)
-{
-	FILE *mfile;
 
-	mfile = fopen(filename, "r");
-	if (!mfile)
-	{
-		fprintf(stderr, "Error: Can't open file %s\n", filename);
-		exit(EXIT_FAILURE);
-	}
-	return (mfile);
+#define STACK_SIZE 100
+
+int stack[STACK_SIZE];  // The stack to store integers
+int stack_pointer = 0;  // Points to the top of the stack
+
+void push(int value) {
+    if (stack_pointer < STACK_SIZE) {
+        stack[stack_pointer] = value;
+        stack_pointer++;
+    } else {
+        fprintf(stderr, "Error: Stack overflow\n");
+        exit(EXIT_FAILURE);
+    }
 }
 
-/**
- * num_len -  count how many charachter in number
- * @num: number
- * Return: the number lentgh
- */
-size_t num_len(int num)
-{
-	int len = 0;
-
-	if (!num)
-		return (1);
-	if (num <= 0)
-		len++;
-	while (num != 0)
-	{
-		num /= 10;
-		len++;
-	}
-	return (len);
+void pall() {
+    int i;
+    for (i = stack_pointer - 1; i >= 0; i--) {
+        printf("%d\n", stack[i]);
+    }
 }
 
-/**
- * verify_number -  verify is number for push opcode
- * is valid or not
- * @token: token string
- * Return: none
- */
-void verify_number(char *token)
-{
-	int i = 0;
+int main() {
+    // Read and interpret Monty bytecode from a file
+    FILE *file = fopen("bytecodes/00.m", "r");
+    if (file == NULL) {
+        fprintf(stderr, "Error: Unable to open the bytecode file\n");
+        return EXIT_FAILURE;
+    }
 
-	if (atoi(token) < 0)
-		i++;
-	if ((isdigit(token[i]) && strlen(token) == num_len(atoi(token))) ||
-		(token[0] == '-' && isdigit(token[1])))
-		datax.push_value = atoi(token);
-	else
-	{
-		fprintf(stderr, "L%d: usage: push integer\n", datax.line_num);
-		free_stack(datax.top);
-		exit(EXIT_FAILURE);
-	}
-}
+    char opcode[50];
+    int arg;
 
-/**
- * free_stack -  frees stack
- * @top: head of double list
- * Return: none
- */
-void free_stack(stack_t *top)
-{
-	stack_t *nav, *nav2;
+    while (fscanf(file, "%s", opcode) != EOF) {
+        if (strcmp(opcode, "push") == 0) {
+            if (fscanf(file, "%d", &arg) != 1) {
+                fprintf(stderr, "Error: L%d: usage: push integer\n", line_number);
+                exit(EXIT_FAILURE);
+            }
+            push(arg);
+        } else if (strcmp(opcode, "pall") == 0) {
+            pall();
+        } else {
+            fprintf(stderr, "Error: L%d: Unknown opcode: %s\n", line_number, opcode);
+            exit(EXIT_FAILURE);
+        }
+    }
 
-	nav = top;
-	while (nav)
-	{
-		nav2 = nav->next;
-		free(nav);
-		nav = nav2;
-	}
-	datax.top = NULL;
-	fclose(datax.mfile);
+    fclose(file);
+    return 0;
 }
