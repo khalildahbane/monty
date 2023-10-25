@@ -1,64 +1,4 @@
-#include "monty.h"
-/**
- * _mode -  aswitch the mode queue/stack
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
- */
-void _mode(stack_t **top, unsigned int line_number)
-{
-	(void)top;
-	(void)line_number;
 
-	if (strcmp(datax.opcode, "queue") == 0)
-		datax.mode = 1;
-	else if (strcmp(datax.opcode, "stack") == 0)
-		datax.mode = 0;
-}
-
-/**
- * _push -  adds a new node at the beginning
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
- */
-void _push(stack_t **top, unsigned int line_number)
-{
-	stack_t *new, *last;
-	int i = 0;
-
-	(void)line_number;
-	if (!top)
-		return;
-	new = malloc(sizeof(stack_t));
-	if (!new)
-	{
-		fprintf(stderr, "Error: malloc failed");
-		free_stack(datax.top);
-		exit(EXIT_FAILURE);
-	}
-	new->n = datax.push_value;
-	if (datax.mode == 0 || !*top)
-	{
-		if (*top)
-		{
-			new->next = *top;
-			(*top)->prev = new;
-		}
-		else
-			new->next = NULL;
-		new->prev = NULL;
-		*top = new;
-	}
-	else if (datax.mode == 1)
-	{
-		last = *top;
-		for (i = 0; last; i++)
-		{
-			if (!last->next)
-				break;
-			last = last->next;
-		}
 		last->next = new;
 		new->prev = last;
 		new->next = NULL;
@@ -66,18 +6,18 @@ void _push(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _pall -  prints all the elements of a dlistint_t list
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _pall - Prints all the elements of a dlistint_t list
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _pall(stack_t **top, unsigned int line_number)
 {
 	stack_t *current = *top;
-	int i;
+	int x;
 
 	(void)line_number;
-	for (i = 0; current; i++)
+	for (x = 0; current; x++)
 	{
 		fprintf(stdout, "%d\n", current->n);
 		current = current->next;
@@ -86,10 +26,10 @@ void _pall(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _pint -  prints the value at the top of the stack
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _pint -  Prints the value at begining of stack
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _pint(stack_t **top, unsigned int line_number)
 {
@@ -104,10 +44,10 @@ void _pint(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _pop - removes the top element of the stack
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _pop - Removes the first element of the stack
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _pop(stack_t **top, unsigned int line_number)
 {
@@ -132,10 +72,10 @@ void _pop(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _swap - swaps the top two elements of the stack.
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _swap - Swaps the first two elements of the stack
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _swap(stack_t **top, unsigned int line_number)
 {
@@ -162,10 +102,10 @@ void _swap(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _add - adds the top two elements of the stack.
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _add - Adds the first two elements of the stack
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _add(stack_t **top, unsigned int line_number)
 {
@@ -183,10 +123,10 @@ void _add(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _nop - doesn’t do anything.
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _nop - Doesn’t do anything
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _nop(stack_t **top, unsigned int line_number)
 {
@@ -195,11 +135,10 @@ void _nop(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _sub - subtracts the top element of the stack
- *  from the second top element of the stack.
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _sub - Subtracts the first element of the stack from the second
+ * @top: Head of double list
+ * @line_number: line num
+ * Return: None
  */
 void _sub(stack_t **top, unsigned int line_number)
 {
@@ -217,11 +156,10 @@ void _sub(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _div - divides the second top element of
- * the stack by the top element of the stack.
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _div - Divides the second top element of stack by the first
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _div(stack_t **top, unsigned int line_number)
 {
@@ -245,11 +183,10 @@ void _div(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _mul - multiplies the second top element
- * of the stack with the top element of the stack.
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _mul - Multiplies the second top element with the first element
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _mul(stack_t **top, unsigned int line_number)
 {
@@ -268,10 +205,10 @@ void _mul(stack_t **top, unsigned int line_number)
 
 /**
  * _mod - computes the rest of the division of the second
- *  top element of the stack by the top element of the stack.
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ *  top element of the stack by the top element of the stack
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _mod(stack_t **top, unsigned int line_number)
 {
@@ -295,10 +232,10 @@ void _mod(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _pchar - prints the char at the top of the stack (ascii).
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _pchar - Prints the char at the top of the stack
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _pchar(stack_t **top, unsigned int line_number)
 {
@@ -318,20 +255,20 @@ void _pchar(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _pstr - prints the string starting at the top of the stack.
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _pstr - Prints the string starting at the top of the stack
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _pstr(stack_t **top, unsigned int line_number)
 {
 	stack_t *current = *top;
-	int i;
+	int x;
 	(void)line_number;
 
-	for (i = 0; current && current->n != 0 &&
+	for (x = 0; current && current->n != 0 &&
 				!(current->n > 127 || current->n < 0);
-		 i++)
+		 x++)
 	{
 		fprintf(stdout, "%c", current->n);
 		current = current->next;
@@ -340,20 +277,20 @@ void _pstr(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _rotl -  rotates the stack to the top.
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _rotl - Rotates the stack to the top
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _rotl(stack_t **top, unsigned int line_number)
 {
 	stack_t *last = *top;
-	int i;
+	int x;
 
 	if (!*top)
 		return;
 	(void)line_number;
-	for (i = 0; last; i++)
+	for (x = 0; last; x++)
 	{
 		if (!last->next)
 			break;
@@ -367,20 +304,20 @@ void _rotl(stack_t **top, unsigned int line_number)
 }
 
 /**
- * _rotr - rotates the stack to the bottom.
- * @top: head of double list
- * @line_number: line number of opcode
- * Return: none
+ * _rotr - Rotates the stack to the bottom
+ * @top: Head of double list
+ * @line_number: Line num
+ * Return: None
  */
 void _rotr(stack_t **top, unsigned int line_number)
 {
 	stack_t *last = *top;
-	int i;
+	int x;
 
 	if (!*top || (*top)->next == NULL)
 		return;
 	(void)line_number;
-	for (i = 0; last; i++)
+	for (x = 0; last; x++)
 	{
 		if (!last->next)
 			break;
