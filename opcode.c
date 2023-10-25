@@ -392,3 +392,4 @@ void _rotr(stack_t **top, unsigned int line_number)
 	(*top) = last;
 	last->prev = NULL;
 }
+

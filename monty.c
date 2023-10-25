@@ -80,3 +80,4 @@ void free_stack(stack_t *top)
 	datax.top = NULL;
 	fclose(datax.mfile);
 }
+
